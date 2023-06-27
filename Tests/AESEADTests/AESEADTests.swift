@@ -35,6 +35,16 @@ final class AESEADTests: XCTestCase {
         
         XCTAssertEqual(json.testString, "suoie")
     }
+
+    func testNsstring() throws{
+        let nsstring = NSString(string: "akaioER")
+        AESEAD.shared.setKeyAndIV(key: "testst1111", iv: "vvvv")
+        let enOptional = try nsstring.encryptWithAES()
+        if let enOptional{
+            XCTAssertEqual(enOptional, "ovrkk18P4nFb9I+BYq/HaA==")
+        }
+        
+    }
     
     struct testJSON:Codable{
         let testString:String
