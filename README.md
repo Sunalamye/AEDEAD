@@ -102,6 +102,6 @@ Please make sure to update tests as appropriate.
 
 ## Contact
 
-Your Name - sunalamye@pm.me
+Email - sunalamye@pm.me
 
 Project Link: [https://github.com/Sunalamye/AEDEAD](https://github.com/Sunalamye/AEDEAD)
