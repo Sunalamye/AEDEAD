@@ -33,7 +33,7 @@ public class AESEAD {
     var iv: String?
     
     /// AES key size.
-    var size: aesSize = .aes128
+    var size: AESKeySize = .aes128
     
     private init() {}
     
@@ -50,7 +50,7 @@ public class AESEAD {
     /// Set the AES key size.
     ///
     /// - Parameter size: The size of the AES key.
-    public func setSize(size: aesSize) {
+    public func setSize(size: AESKeySize) {
         self.size = size
     }
     
@@ -64,7 +64,7 @@ public class AESEAD {
             throw DecryptionError.missingKey
         }
         guard let data = input.data(using: .utf8),
-              let encryptedData = data.aes(operation: CCOperation(kCCEncrypt), key: key, iv: iv ?? "", size: size) else {
+              let encryptedData = data.aesCrypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv, keySize: size) else {
             return nil
         }
         let baseStr = encryptedData.base64EncodedString()
@@ -83,8 +83,7 @@ public class AESEAD {
         guard let data = Data(base64Encoded: input) else {
             throw DecryptionError.dataEncodingFailed
         }
-        
-        guard let decryptedData = data.aes(operation: CCOperation(kCCDecrypt), key: key, iv: iv ?? "", size: size) else {
+        guard let decryptedData = data.aesCrypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv, keySize: size) else {
             throw DecryptionError.decryptionFailed
         }
         
@@ -95,7 +94,6 @@ public class AESEAD {
         guard let unescapedStr = decryptedStr.applyingTransform(.init("Any-Hex"), reverse: true) else {
             throw DecryptionError.unescapedStringFailed
         }
-        
         return unescapedStr
     }
     
